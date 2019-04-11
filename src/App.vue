@@ -1,14 +1,21 @@
-// App.component.vue
+// App.vue
 
 <template>
-   <h1>{{message}}</h1>
+   <main>
+      <h1>{{title}}</h1>
+      <ListNames />
+   </main>
 </template>
 <script>
+   import ListNames from './components/ListNames.vue'
    export default {
       data: () => {
          return {
-            message: 'Hello from the Vue App!'
+            title: 'Hello, you are on Star Wars List generator!'
          }
+      },
+      components: {
+         ListNames
       }
    }
 </script>
