@@ -3,11 +3,12 @@
 <template>
    <main>
       <h1>{{title}}</h1>
-      <ListNames />
+      <ListNav />
    </main>
 </template>
 <script>
-   import ListNames from './components/ListNames.vue'
+   import ListNav from './components/ListNav.vue'
+
    export default {
       data: () => {
          return {
@@ -15,7 +16,7 @@
          }
       },
       components: {
-         ListNames
+         ListNav
       }
    }
 </script>
