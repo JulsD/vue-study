@@ -1,17 +1,16 @@
 // FilmsList.vue
 
-<template>
-    
-</template>
+<template> </template>
 <script>
-   export default {
-      data: () => {
-         return {
-            
-         }
-      }
-   }
+export default {
+  data: () => {
+    return {};
+  }
+};
 </script>
 
-<style scoped> 
+<style scoped>
+h2 {
+  color: blueviolet;
+}
 </style>
