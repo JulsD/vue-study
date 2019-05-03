@@ -7,18 +7,20 @@
       <li
         v-for="(tableLink, tableName) of tablesList"
         :key="tableName"
-        v-bind:class="{ active: activeList == tableName }"
+        :class="{ active: activeList == tableName }"
       >
-        <a v-href="tableLink" v-on:click="updateActiveList(tableName)">
+        <a :data-href="tableLink" @click="updateActiveList(tableName)">
             {{ tableName | capitalize }}
         </a>
       </li>
     </ul>
-    <article>
-        <transition name="fade" :duration="{ enter: 800, leave: 500 }" mode="out-in">
-            <section :key="`${activeList}List`">{{activeList | capitalize}}</section>
+    <section>
+        <transition name="fade"
+                    :duration="{ enter: 800, leave: 500 }"
+                    mode="out-in">
+            <div :key="`${activeList}List`">{{activeListData}}</div>
         </transition>
-    </article>
+    </section>
   </main>
 </template>
 
@@ -29,8 +31,9 @@ export default {
   data: () => {
     return {
       description: "Chose the list:",
-      activeList: '',
-      tablesList: null
+      tablesList: null,
+      activeList: null,
+      activeListData: null
     };
   },
   created: function () {
@@ -38,14 +41,20 @@ export default {
       fetch("https://swapi.co/api/")
         .then(response => response.json())
         .then(data => {
-            vm.tablesList = data
-            vm.activeList = Object.keys(vm.tablesList)[0]
+            vm.tablesList = data;
+            vm.updateActiveList();
             })
         .catch(error => console.error('error', error));
   },
   methods: {
     updateActiveList(listName) {
-      this.activeList = listName;
+      this.activeList = listName || Object.keys(this.tablesList)[0];
+      this.getactiveListData(listName);
+    },
+    getactiveListData(){
+        return fetch(`https://swapi.co/api/${this.activeList}/`).then(response => response.json())
+                                                              .then(data => this.activeListData = data.results)
+                                                              .catch(error => console.error('error', error));
     }
   },
   filters: {
