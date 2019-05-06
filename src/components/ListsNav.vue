@@ -1,4 +1,4 @@
-// ListNames.vue
+// ListsNav.vue
 
 <template>
   <main>
@@ -18,7 +18,7 @@
         <transition name="fade"
                     :duration="{ enter: 800, leave: 500 }"
                     mode="out-in">
-            <div :key="`${activeList}List`">{{activeListData}}</div>
+            <ListTable :key="`${activeList}List`" :list-data="activeListData"></ListTable>
         </transition>
     </section>
   </main>
@@ -26,6 +26,7 @@
 
 <script>
 import _ from 'lodash';
+import ListTable from './ListTable.vue';
 
 export default {
   data: () => {
@@ -61,6 +62,9 @@ export default {
     capitalize: (v) => {
       return _.capitalize(v);
     }
+  },
+  components: {
+    ListTable
   }
 };
 </script>

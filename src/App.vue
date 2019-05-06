@@ -3,11 +3,11 @@
 <template>
   <main>
     <h1>{{ title }}</h1>
-    <ListNav />
+    <lists-nav />
   </main>
 </template>
 <script>
-import ListNav from "./components/ListNav.vue";
+import ListsNav from "./components/ListsNav.vue";
 
 export default {
   data: () => {
@@ -16,7 +16,7 @@ export default {
     };
   },
   components: {
-    ListNav
+    ListsNav
   }
 };
 </script>
