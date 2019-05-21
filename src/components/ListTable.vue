@@ -1,10 +1,12 @@
 // ListTable.vue
 
 <template>
-  <article class="table">
-    <header class="row">
+  <article class="table" v-if="tableData">
+    <header class="row" v-if="tableHeaders">
       <div class="col col-1">N</div>
-      <div class="col" v-for="(title) of tableHeaders" :key="title">{{title | titlelize}}</div>
+      <div class="col" v-for="(title) of tableHeaders" :key="title">
+        <button @click="sortBy(title)">{{title | titlelize}}</button>
+      </div>
     </header>
     <div class="row" v-for="(tableDataItem, index) of tableData" :key="index">
       <div class="col col-1">{{index + 1}}</div>
@@ -19,32 +21,53 @@
 </template>
 <script>
 export default {
-  data: () => {
-    return {};
+  props: {
+    listName: String,
+    listData: Array
   },
-  props: ['listName', 'listData'],
+  data: function() {
+    return {
+      sortByHeader: ''
+    }
+  },
   computed: {
-    tableHeaders: function() {
-      return this.tableData ? Object.keys(this.tableData[0]) : null;
+    filteredData: function(){
+      return this.filterData(this.listData) || [];
     },
-    tableData: function() {
-      return this.listData ? this.filterData(this.listData) : null;
+    tableHeaders: function() {
+      return this.filteredData.length > 0 ? Object.keys(this.filteredData[0]) : ''
+    },
+    tableData: {
+      get: function() {
+        return _.sortBy(this.filteredData, this.sortByHeader);
+      },
+      set: function(newTableData) {
+        return newTableData;
+      }
     }
   },
   methods: {
     filterDataObjectFromArrays: function(headers) {
         return _.omit(_.omitBy(headers, (h) => Array.isArray(h)), ['created', 'edited', 'url']);
     },
+    convertNumbersToNumbers(data) {
+      return isNaN(data) ? data : +data;
+    },
     filterData: function(data) {
-        return _.map(data, dataItem => this.filterDataObjectFromArrays(dataItem));
+      return _.map(data, dataItem => {
+        return _.mapValues(this.filterDataObjectFromArrays(dataItem), (value) => {
+          return this.convertNumbersToNumbers(value);
+        });
+      });
     },
     splitColors: function(colors) {
-      console.log('splitColors', colors)
       return colors.includes(',') ? colors.split(',') : [colors];
     },
     isColorProp: function(prop) {
-      console.log('isColorProp', prop)
       return prop.includes('color');
+    },
+    sortBy: function(sortByHeader) {
+      this.sortByHeader = sortByHeader;
     }
   },
   filters: {
@@ -82,8 +105,9 @@ header.row:nth-child(1) {
 }
 
 .color-mark {
-  padding: 8px;
-  border-radius: 4px;
+  padding: 4px;
+  border-radius: 8px;
+  margin: 4px;
   display: inline-block;
 }
 </style>

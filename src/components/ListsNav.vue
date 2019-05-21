@@ -1,6 +1,6 @@
 // ListsNav.vue
 
-<template>
+<template v-if="dataLoaded">
   <main>
     <h2>{{ description }}</h2>
     <ul>
@@ -15,11 +15,12 @@
       </li>
     </ul>
     <section>
-        <transition name="fade"
-                    :duration="{ enter: 800, leave: 500 }"
-                    mode="out-in">
-            <ListTable :key="`${activeList}List`" :list-data="activeListData"></ListTable>
-        </transition>
+      <h2>{{activeList | capitalize}}</h2>
+      <transition name="fade"
+                  :duration="{ enter: 800, leave: 500 }"
+                  mode="out-in">
+          <ListTable :key="`${activeList}List`" :list-data="activeListData" :list-name="activeList"></ListTable>
+      </transition>
     </section>
   </main>
 </template>
@@ -34,7 +35,8 @@ export default {
       description: "Chose the list:",
       tablesList: null,
       activeList: null,
-      activeListData: null
+      activeListData: null,
+      dataLoaded: false
     };
   },
   created: function () {
@@ -44,6 +46,7 @@ export default {
         .then(data => {
             vm.tablesList = data;
             vm.updateActiveList();
+            vm.dataLoaded = true;
             })
         .catch(error => console.error('error', error));
   },
