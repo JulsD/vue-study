@@ -3,7 +3,7 @@
 <template>
   <article class="table" v-if="tableData">
     <div class="search-data">
-      <label for="search-data-input">Search throught the data:</label>
+      <label for="search-data-input">Search:</label>
       <input type="search" id="search-data-input" v-model="searchQuery" placeholder="Start printing here!">
     </div>
     <header class="row" v-if="tableHeaders">
@@ -101,13 +101,13 @@ function prepareDataFortable(data, filterQuery, sortByHeader) {
   display: flex;
 }
 
-.row:nth-child(2n+1) {
+.row:not(header):nth-child(2n+1) {
   background-color: lightgoldenrodyellow;
 }
 
-header.row:nth-child(1) {
+header.row {
   font-weight: 600;
-  background-color: lightgray;
+  background-color: burlywood;
 }
 
 .col {
@@ -131,5 +131,14 @@ header.row:nth-child(1) {
 
 .active {
   background-color: lightgreen;
+}
+
+[for=search-data-input] {
+  font-weight: 500;
+}
+
+.search-data {
+  padding: 10px;
+  margin-bottom: 20px;
 }
 </style>
