@@ -63,7 +63,6 @@ export default {
       description: "Chose the list:",
       tablesList: null,
       activeList: null,
-      activeListData: null,
       dataLoaded: false
     };
   },
@@ -81,22 +80,12 @@ export default {
   methods: {
     updateActiveList(listName) {
       this.activeList = listName || Object.keys(this.tablesList)[0];
-      this.getactiveListData(listName);
-    },
-    getactiveListData() {
-      return fetch(`https://swapi.co/api/${this.activeList}/`)
-        .then(response => response.json())
-        .then(data => (this.activeListData = data.results))
-        .catch(error => console.error("error", error));
     }
   },
   filters: {
     capitalize: v => {
       return _.capitalize(v);
     }
-  },
-  components: {
-    ListTable
   }
 };
 </script>

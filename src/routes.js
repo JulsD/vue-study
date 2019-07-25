@@ -1,9 +1,7 @@
 import ListsNav from "./components/ListsNav.vue";
+import ListTable from "./components/ListTable.vue";
 
 const Bar = { template: "<div>bar</div>" };
-const PlanetsList = {
-  template: "<div>List {{$route.params.listName}}</div>"
-};
 
 // const List = {
 //   template:
@@ -17,7 +15,7 @@ const routes = [
     children: [
       {
         path: ":listName",
-        component: PlanetsList
+        component: ListTable
       }
     ]
   },

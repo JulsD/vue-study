@@ -1,8 +1,8 @@
 // ListTable.vue
 
-<template>
+<template v-if="dataLoaded">
   <article class="table" v-if="tableData">
-    <h2>{{activeList | capitalize}}</h2>
+    <h2>{{listName | capitalize}}</h2>
     <div class="search-data">
       <label for="search-data-input">Search:</label>
       <input type="search" id="search-data-input" v-model="searchQuery" placeholder="Start printing here!">
@@ -26,26 +26,33 @@
 </template>
 <script>
 export default {
-  props: {
-    listName: String,
-    listData: Array
-  },
   data: function() {
     return {
       sortByHeader: '',
-      searchQuery: ''
+      searchQuery: '',
+      listData: []
     }
   },
   computed: {
-    preparedData: function(){
-      return prepareData(this.listData) || [];
+    listName() {
+      return this.$route.params.listName;
     },
-    tableHeaders: function() {
-      return this.preparedData.length > 0 ? Object.keys(this.preparedData[0]) : ''
+    tableHeaders() {
+      return this.listData.length > 0 ? Object.keys(this.listData[0]) : '';
     },
-    tableData: function() {
-      return prepareDataFortable(this.preparedData, this.searchQuery, this.sortByHeader);
+    tableData() {
+      return prepareDataFortable(this.listData, this.searchQuery, this.sortByHeader);
     }
+  },
+  created: function() {
+    let vm = this;
+    fetch(`https://swapi.co/api/${this.listName}/`)
+      .then(response => response.json())
+      .then(data => {
+        vm.listData = prepareData(data.results);
+        vm.dataLoaded = true;
+      })
+      .catch(error => console.error("error", error));
   },
   methods: {
     splitColors: function(colors) {
@@ -61,6 +68,9 @@ export default {
   filters: {
     titlelize: str => {
       return _.capitalize(_.lowerCase(str));
+    },
+    capitalize: v => {
+      return _.capitalize(v);
     }
   }
 };
