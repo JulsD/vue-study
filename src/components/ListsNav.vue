@@ -6,12 +6,8 @@
       <li
         v-for="(tableLink, tableName) of tablesList"
         :key="tableName"
-        :class="{ active: activeList == tableName }"
-      >
-        <a :data-href="tableLink" @click="updateActiveList(tableName)">
-            {{ tableName | capitalize }}
-        </a>
-        <!-- <router-link to=`${tableName}`>Go to {{tableName}} List</router-link> -->
+        :class="{ active: activeList == tableName }">
+        <router-link :to="`/lists/${tableName}`" @click="updateActiveList(tableName)">{{ tableName | capitalize }}</router-link>
       </li>
     </ul>
     <section>

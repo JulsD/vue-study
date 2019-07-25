@@ -33,9 +33,19 @@ export default {
       listData: []
     }
   },
+  watch: {
+    '$route' (to, from) {
+      this.listName = this.$route.params.listName;
+    }
+  },
   computed: {
-    listName() {
-      return this.$route.params.listName;
+    listName: {
+      get() {
+        return this.$route.params.listName;
+      },
+      set(newListName) {
+        getTableData(newListName, this);
+      }
     },
     tableHeaders() {
       return this.listData.length > 0 ? Object.keys(this.listData[0]) : '';
@@ -46,13 +56,7 @@ export default {
   },
   created: function() {
     let vm = this;
-    fetch(`https://swapi.co/api/${this.listName}/`)
-      .then(response => response.json())
-      .then(data => {
-        vm.listData = prepareData(data.results);
-        vm.dataLoaded = true;
-      })
-      .catch(error => console.error("error", error));
+    getTableData(vm.listName, vm);
   },
   methods: {
     splitColors: function(colors) {
@@ -74,6 +78,16 @@ export default {
     }
   }
 };
+
+function getTableData(listName, vm) {
+  fetch(`https://swapi.co/api/${listName}/`)
+      .then(response => response.json())
+      .then(data => {
+        vm.listData = prepareData(data.results);
+        vm.dataLoaded = true;
+      })
+      .catch(error => console.error("error", error));
+}
 
 function filterDataObjectFromArrays(headers) {
   return _.omit(_.omitBy(headers, (h) => Array.isArray(h)), ['created', 'edited', 'url']);

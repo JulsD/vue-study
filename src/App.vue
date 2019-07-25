@@ -4,7 +4,6 @@
   <main>
     <h1>{{ title }}</h1>
     <router-link to="/lists">Go to Lists</router-link>
-    <router-link to="/lists/planets">Go to planets</router-link>
     <router-link to="/bar">Go to Bar</router-link>
     <router-view></router-view>
   </main>
