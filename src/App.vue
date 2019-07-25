@@ -3,20 +3,18 @@
 <template>
   <main>
     <h1>{{ title }}</h1>
-    <lists-nav />
+    <router-link to="/lists">Go to Lists</router-link>
+    <router-link to="/lists/planets">Go to planets</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+    <router-view></router-view>
   </main>
 </template>
 <script>
-import ListsNav from "./components/ListsNav.vue";
-
 export default {
   data: () => {
     return {
       title: "Hello, you are on Star Wars List generator!"
     };
-  },
-  components: {
-    ListsNav
   }
 };
 </script>

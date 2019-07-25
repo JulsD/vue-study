@@ -2,6 +2,7 @@
 
 <template>
   <article class="table" v-if="tableData">
+    <h2>{{activeList | capitalize}}</h2>
     <div class="search-data">
       <label for="search-data-input">Search:</label>
       <input type="search" id="search-data-input" v-model="searchQuery" placeholder="Start printing here!">

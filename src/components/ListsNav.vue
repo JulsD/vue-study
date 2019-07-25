@@ -2,9 +2,6 @@
 <template v-if="dataLoaded">
   <main>
     <h2>{{ description }}</h2>
-    <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
-    <router-view></router-view>
     <ul>
       <li
         v-for="(tableLink, tableName) of tablesList"
@@ -14,14 +11,14 @@
         <a :data-href="tableLink" @click="updateActiveList(tableName)">
             {{ tableName | capitalize }}
         </a>
+        <!-- <router-link to=`${tableName}`>Go to {{tableName}} List</router-link> -->
       </li>
     </ul>
     <section>
-      <h2>{{activeList | capitalize}}</h2>
       <transition name="fade"
                   :duration="{ enter: 800, leave: 500 }"
                   mode="out-in">
-          <ListTable :key="`${activeList}List`" :list-data="activeListData" :list-name="activeList"></ListTable>
+          <router-view></router-view>
       </transition>
     </section>
   </main>
