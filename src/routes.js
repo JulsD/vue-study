@@ -1,14 +1,10 @@
 import ListsNav from "./components/ListsNav.vue";
 import ListTable from "./components/ListTable.vue";
+import VuexSample from "./components/VuexSample.vue";
 
 const Bar = { template: "<div>bar</div>" };
 
-// const List = {
-//   template:
-//     "<list-table :key='`${$route.params.listName}List`' :list-name='$route.params.listName'></list-table>"
-// };
-
-const routes = [
+export default [
   {
     path: "/lists",
     component: ListsNav,
@@ -33,7 +29,9 @@ const routes = [
         next(false);
       }
     }
+  },
+  {
+    path: "/vuex",
+    component: VuexSample
   }
 ];
-
-export default routes;
